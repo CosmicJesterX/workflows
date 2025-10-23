@@ -2,4 +2,13 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: ["github>eslint/workflows//.github/renovate/eslint-base.json5"],
   rangeStrategy: "bump",
+  packageRules: [
+    {
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "excludePackagePatterns": ["^@eslint/", "eslint", "eslint-config-eslint", "espree", "eslint-scope", "eslint-visitor-keys"],
+      "groupName": "non-major devDependencies",
+      "groupSlug": "non-major-dev-deps"
+    },
+  ],
 }
