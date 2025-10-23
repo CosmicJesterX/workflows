@@ -1,6 +1,6 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: ["github>eslint/workflows//.github/renovate/eslint.json5"],
+  extends: ["github>eslint/workflows//.github/renovate/base.json5"],
   packageRules: [
     {
       "matchDepTypes": ["dependencies"],
