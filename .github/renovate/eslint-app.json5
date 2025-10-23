@@ -6,7 +6,6 @@
     {
       "matchDepTypes": ["devDependencies"],
       "matchUpdateTypes": ["minor", "patch"],
-      "excludePackagePatterns": ["^@eslint/", "eslint", "eslint-config-eslint", "espree", "eslint-scope", "eslint-visitor-keys"],
       "groupName": "non-major devDependencies",
       "groupSlug": "non-major-dev-deps"
     },
