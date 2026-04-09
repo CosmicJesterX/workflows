@@ -31,7 +31,7 @@ jobs:
               run: npm pack --workspace packages 2>/dev/null || npm pack
 
             - name: Upload build artifact
-              uses: actions/upload-artifact@v5
+              uses: actions/upload-artifact@v7
               with:
                   name: build
                   path: "*.tgz"
@@ -44,7 +44,7 @@ jobs:
 
         steps:
             - name: Download build artifact
-              uses: actions/download-artifact@v6
+              uses: actions/download-artifact@v8
               with:
                   name: build
 
@@ -64,7 +64,7 @@ jobs:
 
         steps:
             - name: Download build artifact
-              uses: actions/download-artifact@v6
+              uses: actions/download-artifact@v8
               with:
                   name: build
 
@@ -84,7 +84,7 @@ jobs:
 
         steps:
             - name: Download build artifact
-              uses: actions/download-artifact@v6
+              uses: actions/download-artifact@v8
               with:
                   name: build
 
@@ -113,12 +113,12 @@ jobs:
 
         steps:
             - name: Download build artifact
-              uses: actions/download-artifact@v6
+              uses: actions/download-artifact@v8
               with:
                   name: build
 
             - name: Install pnpm
-              uses: pnpm/action-setup@v4
+              uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4
               with:
                   version: latest
 
@@ -142,12 +142,12 @@ jobs:
 
         steps:
             - name: Download build artifact
-              uses: actions/download-artifact@v6
+              uses: actions/download-artifact@v8
               with:
                   name: build
 
             - name: Set up Bun
-              uses: oven-sh/setup-bun@v2
+              uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
 
             - name: bun install
               run: |
