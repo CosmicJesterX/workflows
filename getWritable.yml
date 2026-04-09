@@ -1,0 +1,23 @@
+import { getWritable } from "workflow";
+
+export async function streamWorkflow() {
+  "use workflow";
+
+  // Get the workflow's writable stream
+  const writable = getWritable();
+
+  // And send it into a step
+  await writeStream(writable, 'Hello, world!');
+}
+
+async function writeStream(writable: WritableStream, data: string) {
+  "use step";
+
+  // Steps can write to the stream
+  const writer = writable.getWriter();
+  await writer.write(new TextEncoder().encode(data));
+  writer.close();
+};
+
+const run = await start(streamWorkflow); // Start the workflow
+const stream = run.readable; // Consume the readable stream
