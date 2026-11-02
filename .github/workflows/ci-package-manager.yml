@@ -10,6 +10,15 @@ name: ci-package-manager
 
 on:
     workflow_call:
+        inputs:
+            pnpm_allow_build_args:
+                required: false
+                description: The arguments to use for `--allow-build` when installing with pnpm.
+                default: ''
+                type: string
+
+permissions:
+    contents: read
 
 jobs:
     build-tarball:
@@ -17,10 +26,10 @@ jobs:
 
         steps:
             - name: Check out repo
-              uses: actions/checkout@v6
+              uses: actions/checkout@v7
 
             - name: Set up Node.js
-              uses: actions/setup-node@v6
+              uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -49,7 +58,7 @@ jobs:
                   name: build
 
             - name: Set up Node.js
-              uses: actions/setup-node@v6
+              uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -69,7 +78,7 @@ jobs:
                   name: build
 
             - name: Set up Node.js
-              uses: actions/setup-node@v6
+              uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -89,7 +98,7 @@ jobs:
                   name: build
 
             - name: Set up Node.js
-              uses: actions/setup-node@v6
+              uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -102,6 +111,14 @@ jobs:
               run: |
                   corepack use yarn@latest
                   yarn init -p
+                  yarn config set npmPreapprovedPackages --json '[
+                    "@eslint/*",
+                    "eslint",
+                    "eslint-config-eslint",
+                    "eslint-scope",
+                    "eslint-visitor-keys",
+                    "espree"
+                  ]'
                   yarn add ./*.tgz -D
               env:
                   YARN_ENABLE_IMMUTABLE_INSTALLS: 0 # Allow installs to modify lockfile
@@ -118,12 +135,12 @@ jobs:
                   name: build
 
             - name: Install pnpm
-              uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4
+              uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
               with:
                   version: latest
 
             - name: Set up Node.js
-              uses: actions/setup-node@v6
+              uses: actions/setup-node@v7
               with:
                   node-version: "lts/*"
 
@@ -133,7 +150,9 @@ jobs:
                   auto-install-peers=true
                   node-linker=hoisted
                   EOT
-                  pnpm add ./*.tgz -D
+                  pnpm add ${PNPM_ALLOW_BUILD_ARGS} ./*.tgz -D
+              env:
+                  PNPM_ALLOW_BUILD_ARGS: ${{ case(inputs.pnpm_allow_build_args != '', format('--allow-build={0}', inputs.pnpm_allow_build_args), '') }}
 
     bun-install:
         needs: build-tarball
